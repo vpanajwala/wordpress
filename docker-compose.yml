@@ -1,10 +1,11 @@
 version: '3.3'
-service:
- db:
-   image: mysql:8.0.19
-   command: --default-suthentivation-plugin=mysql_native_password
-   volumes:
-     -db_data:/var/lib/mysql
+
+services:
+  db:
+    image: mysql:8.0.19
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=wordpress
@@ -12,15 +13,16 @@ service:
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=admin123
 
-    wordpress: 
-      image: wordpress:latest
-      ports:
-       "80:80"
-      restart: always
-      environment:
-       - WORDPRESS_DB_HOST=db
-       - WORDPRESS_DB_USER=admin
-       - WORDPRESS_DB_PASSWORD=admin123
-       - WORDPRESS_DB_NAME=databaseword
-volume:
- db_data:
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "80:80"
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=admin
+      - WORDPRESS_DB_PASSWORD=admin123
+      - WORDPRESS_DB_NAME=databaseword
+
+volumes:
+  db_data:
